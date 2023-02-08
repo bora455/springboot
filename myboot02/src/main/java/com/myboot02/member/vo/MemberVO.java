@@ -1,4 +1,4 @@
-package com.myboot03.member.vo;
+package com.myboot02.member.vo;
 
 import java.sql.Date;
 
@@ -66,3 +66,4 @@ public class MemberVO {
 	
 	
 }
+
