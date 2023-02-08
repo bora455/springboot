@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!-- DB에 sql문을 넣어주는 xml -->
+<mapper namespace="com.myboot01.member.dao.MemberDAO">
+	<!-- 여기서 memberVO는 SqlMapConfig의 memberVO를 의미 -->
+	<resultMap id="memResult" type="memberVO">
+		<!-- column이 DB 행의 값이고 property의 이름으로 memResult에 저장 (memberVO형으로)--> 
+		<result property="id" column="id"/>
+		<result property="pwd" column="pwd"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="joinDate" column="joinDate"/>
+	</resultMap>
+	<!-- resultMap="memResult" VO객체 하나를 의미(DB 한개의 행) -->
+	<select id="selectAllMemberList" resultMap="memResult"> 
+		<![CDATA[
+			select * from t_member order by joinDate desc
+		]]>
+	</select>
+	
+	<select id="selectMemberById" resultType="memberVO" parameterType="String">
+		<![CDATA[
+		select * from t_member
+		where
+		id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVO">
+		<![CDATA[
+		insert into t_member(id,pwd,name,email)
+		values(#{id},#{pwd},#{name},#{email})
+		]]>
+	</insert>
+	
+	<update id="updateMember" parameterType="memberVO">
+		<![CDATA[
+		update t_member
+		set pwd=#{pwd}, name=#{name}, email=#{email}
+		where
+		id=#{id}
+		]]>
+	</update>
+	<!-- parameterType = DB에 id 형과 동일해야 작동 -->
+	<delete id="deleteMember" parameterType="String"> 
+		<![CDATA[
+		delete from t_member
+		where
+		id=#{id}
+		]]>
+	</delete>
+	
+	<select id="loginById" resultType="memberVO" parameterType="memberVO">
+		<![CDATA[
+			select * from t_member
+			where id=#{id} and pwd=#{pwd}
+		]]>
+	</select>
+	
+</mapper>
